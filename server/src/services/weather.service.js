@@ -61,8 +61,16 @@ async function getWeather(latitude, longitude) {
   const response = await fetch(url);
 
   if (!response.ok) {
+    const errorText = await response.text();
+
+    console.error(
+      "Open-Meteo Weather Error:",
+      response.status,
+      errorText
+    );
+
     throw new Error(
-      "Unable to fetch weather data"
+      `Open-Meteo API error: ${response.status}`
     );
   }
 
@@ -83,17 +91,15 @@ async function searchCities(city) {
     const errorText = await response.text();
 
     console.error(
-      "Open-Meteo Error:",
+      "Open-Meteo Geocoding Error:",
       response.status,
       errorText
     );
 
     throw new Error(
-      `Open-Meteo API error: ${response.status}`
+      `Open-Meteo Geocoding API error: ${response.status}`
     );
   }
-
-  return response.json();
 
   const data = await response.json();
 
