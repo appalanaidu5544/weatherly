@@ -80,10 +80,20 @@ async function searchCities(city) {
   const response = await fetch(url);
 
   if (!response.ok) {
+    const errorText = await response.text();
+
+    console.error(
+      "Open-Meteo Error:",
+      response.status,
+      errorText
+    );
+
     throw new Error(
-      "Unable to search for cities"
+      `Open-Meteo API error: ${response.status}`
     );
   }
+
+  return response.json();
 
   const data = await response.json();
 
